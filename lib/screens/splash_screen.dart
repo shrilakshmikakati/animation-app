@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'onboarding_screen.dart';
+import '../utils/custom_route.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
-
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
@@ -16,40 +16,27 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
 
-    // Initialize animation controller
+    // Create animation controller
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(seconds: 2),
       vsync: this,
     );
 
-    // Create a zoom out animation
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    // Create zoom out animation
+    _animation = Tween<double>(begin: 1.5, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeOut,
       ),
     );
 
-    // Start the animation
+    // Start animation
     _controller.forward();
 
-    // Navigate to the next screen after animation completes
-    Future.delayed(const Duration(milliseconds: 2500), () {
+    // Navigate to next screen after delay
+    Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const OnboardingScreen(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            const begin = Offset(1.0, 0.0);
-            const end = Offset.zero;
-            const curve = Curves.easeInOut;
-
-            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-            var offsetAnimation = animation.drive(tween);
-
-            return SlideTransition(position: offsetAnimation, child: child);
-          },
-          transitionDuration: const Duration(milliseconds: 500),
-        ),
+          SlideRightRoute(page: OnboardingScreen())
       );
     });
   }
@@ -64,11 +51,14 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFFE0F2F1), Color(0xFFB2DFDB)],
+            colors: [
+              Color(0xFFE0F7E7),
+              Color(0xFFD1F0E8),
+            ],
           ),
         ),
         child: Center(
@@ -77,30 +67,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             child: Container(
               width: 120,
               height: 120,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                  ),
-                ],
-              ),
-              child: Center(
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  width: 80,
-                  height: 80,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Icon(
-                      Icons.card_giftcard,
-                      size: 80,
-                      color: Colors.blue,
-                    );
-                  },
-                ),
+              child: Image.asset(
+                'assets/logo.png',
+                fit: BoxFit.contain,
               ),
             ),
           ),

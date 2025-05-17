@@ -1,333 +1,467 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _screens = [
-    const HomeTab(),
-    const ExploreTab(),
-    const ProfileTab(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  bool _showMenu = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
-}
-
-class HomeTab extends StatelessWidget {
-  const HomeTab({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFFE0F2F1), Color(0xFFB2DFDB)],
-        ),
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Welcome to LearnXChain',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
+    return Stack(
+      children: [
+        // Main content
+        Scaffold(
+          body: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFFD8CCEE), // Light purple/lavender
+                  Color(0xFFE8D8EE), // Lighter purple/pink
+                ],
               ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      margin: const EdgeInsets.only(bottom: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+            ),
+            child: SafeArea(
+              child: Column(
+                children: [
+                  // Top section with profile and balance
+                  _buildTopSection(),
+
+                  // Scrollable content area
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      child: Column(
+                        children: [
+                          // Application Card
+                          _buildApplicationCard(),
+                          SizedBox(height: 16),
+
+                          // Register School Card
+                          _buildRegisterSchoolCard(),
+                          SizedBox(height: 16),
+
+                          // Requested Feature Card
+                          _buildRequestedFeatureCard(),
+                          SizedBox(height: 16),
+                        ],
                       ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.all(15),
-                        leading: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Icon(
-                            Icons.article,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        title: Text(
-                          'Item ${index + 1}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: const Text('This is a description for the item'),
-                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ExploreTab extends StatelessWidget {
-  const ExploreTab({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFFE0F7FA), Color(0xFFB2EBF2)],
-        ),
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Explore',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 15,
-                    mainAxisSpacing: 15,
-                    childAspectRatio: 0.8,
+                    ),
                   ),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.blue.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: const Icon(
-                                Icons.explore,
-                                color: Colors.blue,
-                                size: 30,
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            Text(
-                              'Category ${index + 1}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 5),
-                            const Text(
-                              'Description',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                ],
               ),
-            ],
+            ),
           ),
+          bottomNavigationBar: _buildBottomNavigationBar(),
         ),
-      ),
+
+        // Menu overlay
+        if (_showMenu)
+          _buildMenu(),
+      ],
     );
   }
-}
 
-class ProfileTab extends StatelessWidget {
-  const ProfileTab({Key? key}) : super(key: key);
+  Widget _buildTopSection() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Menu button
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.3),
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              icon: Icon(Icons.menu, color: Colors.black54),
+              onPressed: () {
+                setState(() {
+                  _showMenu = true;
+                });
+              },
+            ),
+          ),
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFFE1F5FE), Color(0xFFB3E5FC)],
-        ),
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
+          // Center section with balance
+          Column(
             children: [
-              const CircleAvatar(
-                radius: 50,
-                backgroundColor: Colors.blue,
-                child: Icon(
-                  Icons.person,
-                  size: 50,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'User Name',
+              Text(
+                'TOTAL BALANCE',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 5),
-              const Text(
-                'user@example.com',
-                style: TextStyle(
-                  fontSize: 16,
                   color: Colors.black54,
                 ),
               ),
-              const SizedBox(height: 30),
-              Expanded(
-                child: ListView(
-                  children: const [
-                    ProfileListItem(
-                      icon: Icons.person_outline,
-                      title: 'Edit Profile',
-                    ),
-                    ProfileListItem(
-                      icon: Icons.settings_outlined,
-                      title: 'Settings',
-                    ),
-                    ProfileListItem(
-                      icon: Icons.notifications_none,
-                      title: 'Notifications',
-                    ),
-                    ProfileListItem(
-                      icon: Icons.help_outline,
-                      title: 'Help & Support',
-                    ),
-                    ProfileListItem(
-                      icon: Icons.logout,
-                      title: 'Logout',
-                      isLast: true,
+              Text(
+                '\$10000',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.add_card, size: 14),
+                    SizedBox(width: 4),
+                    Text(
+                      'ADDS',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
               ),
             ],
           ),
+
+          // Profile section
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                'WELCOME ADMIN',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4),
+              CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.blue,
+                child: Text(
+                  'A',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildApplicationCard() {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        height: 120,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+        ),
+        child: Stack(
+          children: [
+            // Decorative elements
+            Positioned(
+              top: 10,
+              right: 10,
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.red.withOpacity(0.3), width: 1),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 10,
+              left: 10,
+              child: Icon(
+                Icons.spa,
+                color: Colors.red.withOpacity(0.3),
+                size: 20,
+              ),
+            ),
+
+            // Date display
+            Positioned(
+              top: 8,
+              left: 8,
+              child: Text(
+                '08/23/2023',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+
+            // Center text
+            Center(
+              child: Text(
+                'APPLICATION',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ),
+
+            // Dot indicator
+            Center(
+              child: Padding(
+                padding: EdgeInsets.only(top: 30),
+                child: Container(
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
-}
 
-class ProfileListItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final bool isLast;
-
-  const ProfileListItem({
-    Key? key,
-    required this.icon,
-    required this.title,
-    this.isLast = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          leading: Icon(
-            icon,
-            color: Colors.blue,
-          ),
-          title: Text(title),
-          trailing: const Icon(
-            Icons.arrow_forward_ios,
-            size: 16,
-            color: Colors.grey,
+  Widget _buildRegisterSchoolCard() {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        height: 120,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.blue.shade300,
+              Colors.blue.shade500,
+            ],
           ),
         ),
-        if (!isLast)
-          const Divider(
-            height: 1,
-            indent: 70,
+        child: Center(
+          child: Text(
+            'REGISTER SCHOOL',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.2,
+              color: Colors.black,
+            ),
           ),
-      ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRequestedFeatureCard() {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        height: 120,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.indigo.shade400,
+              Colors.deepPurple.shade800,
+            ],
+          ),
+        ),
+        child: Center(
+          child: Text(
+            'REQUESTED FEATURE',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.2,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              icon: Icon(Icons.home, color: Colors.black),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.add_box_outlined, color: Colors.black54),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.menu_book_outlined, color: Colors.black54),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.arrow_forward_ios, color: Colors.black54),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenu() {
+    return Container(
+      color: Colors.black,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          body: Stack(
+            children: [
+              // Search bar at top
+              Positioned(
+                top: 20,
+                left: 0,
+                right: 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search',
+                        prefixIcon: Icon(Icons.search),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(vertical: 10),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              // Menu options in center
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'GET ALL SCHOOL',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      'Create membership',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      'Trasactions',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      'feedback',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      'Ticket',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Close button at bottom
+              Positioned(
+                bottom: 40,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _showMenu = false;
+                      });
+                    },
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 1),
+                      ),
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

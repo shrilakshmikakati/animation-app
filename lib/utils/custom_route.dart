@@ -5,18 +5,8 @@ class SlideRightRoute extends PageRouteBuilder {
 
   SlideRightRoute({required this.page})
       : super(
-    pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        ) =>
-    page,
-    transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-        ) {
+    pageBuilder: (context, animation, secondaryAnimation) => page,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);
       const end = Offset.zero;
       const curve = Curves.easeInOut;
@@ -26,6 +16,5 @@ class SlideRightRoute extends PageRouteBuilder {
 
       return SlideTransition(position: offsetAnimation, child: child);
     },
-    transitionDuration: const Duration(milliseconds: 500),
   );
 }
