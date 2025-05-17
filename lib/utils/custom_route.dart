@@ -7,7 +7,7 @@ class SlideRightRoute extends PageRouteBuilder {
       : super(
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
+      const begin = Offset(2.0, 0.0);
       const end = Offset.zero;
       const curve = Curves.easeInOut;
 

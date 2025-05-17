@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart';
+import '../utils/custom_route.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -28,24 +30,16 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SafeArea(
               child: Column(
                 children: [
-                  // Top section with profile and balance
                   _buildTopSection(),
-
-                  // Scrollable content area
                   Expanded(
                     child: SingleChildScrollView(
                       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                       child: Column(
                         children: [
-                          // Application Card
                           _buildApplicationCard(),
                           SizedBox(height: 16),
-
-                          // Register School Card
                           _buildRegisterSchoolCard(),
                           SizedBox(height: 16),
-
-                          // Requested Feature Card
                           _buildRequestedFeatureCard(),
                           SizedBox(height: 16),
                         ],
@@ -58,8 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           bottomNavigationBar: _buildBottomNavigationBar(),
         ),
-
-        // Menu overlay
         if (_showMenu)
           _buildMenu(),
       ],
@@ -88,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          // Center section with balance
           Column(
             children: [
               Text(
@@ -128,10 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-
-          // Profile section
           Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'WELCOME ADMIN',
@@ -174,13 +163,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Stack(
           children: [
-            // Decorative elements
             Positioned(
               top: 10,
               right: 10,
               child: Container(
                 width: 60,
-                height: 60,
+                height: 80,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.red.withOpacity(0.3), width: 1),
@@ -209,8 +197,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-
-            // Center text
             Center(
               child: Text(
                 'APPLICATION',
@@ -221,8 +207,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-
-            // Dot indicator
             Center(
               child: Padding(
                 padding: EdgeInsets.only(top: 30),
@@ -340,7 +324,12 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             IconButton(
               icon: Icon(Icons.arrow_forward_ios, color: Colors.black54),
-              onPressed: () {},
+              onPressed: () {
+                // Navigate back to login with sliding animation
+                Navigator.of(context).push(
+                    SlideRightRoute(page: LoginScreen())
+                );
+              },
             ),
           ],
         ),
@@ -356,7 +345,6 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.black,
           body: Stack(
             children: [
-              // Search bar at top
               Positioned(
                 top: 20,
                 left: 0,
@@ -380,8 +368,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-
-              // Menu options in center
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -429,8 +415,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-
-              // Close button at bottom
               Positioned(
                 bottom: 40,
                 left: 0,

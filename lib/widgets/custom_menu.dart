@@ -88,7 +88,6 @@ class CustomMenu extends StatelessWidget {
                 ),
               ),
 
-              // Close button at bottom
               Positioned(
                 bottom: 40,
                 left: 0,

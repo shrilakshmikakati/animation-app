@@ -48,8 +48,6 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 24),
-
-                    // Username field
                     TextField(
                       decoration: InputDecoration(
                         hintText: 'username',
@@ -65,7 +63,6 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
 
-                    // Password field
                     TextField(
                       obscureText: true,
                       decoration: InputDecoration(
@@ -81,7 +78,6 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
 
-                    // Forgot password text
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -97,8 +93,6 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-
-                    // Login button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(

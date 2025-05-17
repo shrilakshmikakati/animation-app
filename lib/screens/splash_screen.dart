@@ -15,8 +15,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-
-    // Create animation controller
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
@@ -29,8 +27,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         curve: Curves.easeOut,
       ),
     );
-
-    // Start animation
     _controller.forward();
 
     // Navigate to next screen after delay
